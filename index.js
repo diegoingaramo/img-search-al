@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var image_utils = require('./image_utils.js');
 
 app.set('port', (process.env.PORT || 5001));
 
@@ -16,7 +17,12 @@ app.get("/api/imagesearch/:searchQuery/:offset", function(req, res) {
     var searchQuery = req.params.searchQuery;
     var offset = req.params.offset;
 
-    res.end("api/imagesearch/:searchQuery/:offset: " + searchQuery + " " + offset);
+    image_utils.searchImage(searchQuery,offset,function (data){
+
+    	res.writeHead(200, { 'Content-Type': 'application/json' });
+    	res.end(JSON.stringify(data));
+
+    });
 
 });
 
