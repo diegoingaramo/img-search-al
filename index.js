@@ -18,9 +18,14 @@ app.get("/api/imagesearch/:searchQuery/:offset", function(req, res) {
     var offset = req.params.offset;
 
     image_utils.searchImage(searchQuery,offset,function (data){
-    	console.log(data);
-    	res.writeHead(200, { 'Content-Type': 'application/json' });
-    	res.end(JSON.stringify(data));
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    if (data == -1)
+    {
+    		res.end(JSON.stringify({error:"There was a problem processing your request. Please try again later."}));
+    }
+
+    res.end(JSON.stringify(data));
 
     });
 
