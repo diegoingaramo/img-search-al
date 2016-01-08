@@ -9,6 +9,9 @@ var https = require('https');
 var google = require('googleapis');
 var customsearch = google.customsearch('v1');
 
+google.options({ proxy: process.env.QUOTAGUARDSTATIC_URL });
+
+
 module.exports = {
 
   /**
