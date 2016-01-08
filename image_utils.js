@@ -1,9 +1,7 @@
  const API_KEY = 'AIzaSyAe3GpWmJcv-fz6qLhq6lTLRZu37dDxnwY'; // specify your API key here
  const CX = "015117636991349592227:fldsnejgga0";
 
-
-
- var numResults = 10;
+var numResults = 10;
 
 var https = require('https');
 var google = require('googleapis');

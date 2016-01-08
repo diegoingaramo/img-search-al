@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var image_utils = require('./image_utils.js');
+var db_utils = require('./database_utils.js');
 
 app.set('port', (process.env.PORT || 5001));
 
@@ -19,13 +20,16 @@ app.get("/api/imagesearch/:searchQuery/:offset", function(req, res) {
 
     image_utils.searchImage(searchQuery,offset,function (data){
 
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    if (data == -1)
-    {
-    		res.end(JSON.stringify({error:"There was a problem processing your request. Please try again later."}));
-    }
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        if (data == -1)
+        {
+        	res.end(JSON.stringify({error:"There was a problem processing your request. Please try again later."}));
+        }
 
-    res.end(JSON.stringify(data));
+        db_utils.insert_query({searchQuery: searchQuery},function(){
+            res.end(JSON.stringify(data));    
+        });
+    
 
     });
 
