@@ -10,7 +10,12 @@ Search latest images search
 */
 app.get("/api/latest/imagesearch", function(req, res) 
 {
-    res.end("api/latest/imagesearch/");
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    db_utils.latest_queries(function(items){
+        console.log(items);
+        res.end(JSON.stringify(items));
+    });
+
 });
 
 app.get("/api/imagesearch/:searchQuery/:offset", function(req, res) {
@@ -25,8 +30,7 @@ app.get("/api/imagesearch/:searchQuery/:offset", function(req, res) {
         {
         	res.end(JSON.stringify({error:"There was a problem processing your request. Please try again later."}));
         }
-
-        db_utils.insert_query({searchQuery: searchQuery},function(){
+        db_utils.insert_query({term: searchQuery,when: new Date().toString()},function(){
             res.end(JSON.stringify(data));    
         });
     
